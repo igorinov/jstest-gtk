@@ -29,6 +29,8 @@ ButtonWidget::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 {
   Gtk::DrawingArea::on_draw(cr);
 
+    Cairo::FontExtents fe;
+    Cairo::TextExtents te;
     int w  = get_allocation().get_width()  - 10;
     int h  = get_allocation().get_height() - 10;
 
@@ -45,11 +47,11 @@ ButtonWidget::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     if (down)
       cr->set_source_rgb(1.0, 1.0, 1.0);
 
-    // FIXME: There are better ways to center text
-    if (name.size() == 2)
-      cr->move_to(w/2-6, h/2+3);
-    else
-      cr->move_to(w/2-4, h/2+3);
+    cr->get_font_extents(fe);
+    cr->get_text_extents(name, te);
+
+    cr->move_to((w - te.x_bearing - te.width) / 2, (h - fe.descent + te.height) / 2);
+
     cr->show_text(name);
 
   return true;
