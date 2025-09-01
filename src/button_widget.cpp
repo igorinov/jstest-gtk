@@ -50,7 +50,9 @@ ButtonWidget::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     cr->get_font_extents(fe);
     cr->get_text_extents(name, te);
 
-    cr->move_to((w - te.x_bearing - te.width) / 2, (h - fe.descent + te.height) / 2);
+    double x = w / 2 - te.x_bearing - te.width / 2;
+    double y = h / 2 - fe.descent + fe.height / 2;
+    cr->move_to(x, y);
 
     cr->show_text(name);
 
